@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 1.5rem;
+}
+
+#asterik {
+    color: red;
+}
+
+.input {
+    border: 1px solid #808080;
+    border-radius: 0.3rem;
+    width: 100%;
+}
