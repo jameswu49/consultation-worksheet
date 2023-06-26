@@ -1,6 +1,7 @@
 import { useState } from "react";
 import InputContainer from "./Input-Container";
 import Mortgages from "./Mortgages";
+import Table from "./Table";
 
 export default function Form() {
     const [firstName, setFirstName] = useState('')
@@ -25,6 +26,7 @@ export default function Form() {
                 <form onSubmit={handleFormSubmit}>
                     <InputContainer setFirstName={setFirstName} setLastName={setLastName} setEmail={setEmail} />
                     <Mortgages mortgage={mortgage} setMortgages={setMortgage} />
+                    {/* <Table /> */}
                     <button type="submit">Submit</button>
 
                 </form>
