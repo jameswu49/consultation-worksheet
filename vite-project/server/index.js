@@ -4,7 +4,7 @@ import pool from './db.js';
 const app = express();
 app.use(express.json());
 
-app.get('/form', async (req, res) => {
+app.get('/', async (req, res) => {
     try {
         const results = await pool.query('SELECT * FROM public.mortgages')
         res.json(results.rows)
