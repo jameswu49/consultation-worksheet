@@ -21,6 +21,23 @@ body {
 }
 
 .table {
-    border: 1px solid #808080;
-    width: 75%;
+    width: 100%;
 }
+
+table {
+    background-color: #007ACC;
+    border-collapse: collapse;
+    width: 100%;
+    color: white;
+    text-align: center;
+  }
+
+  th, td {
+    border: 1px solid #f2f2f2;
+    padding: 8px;
+    text-align: left;
+  }
+
+ tbody {
+    background-color: white;
+ }

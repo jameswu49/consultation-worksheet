@@ -39,8 +39,16 @@ export default function Mortgages({ mortgage, setMortgage }) {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1</td>
+                                <td className="bg-[#007ACC]">1</td>
                                 <td><input className="table" type="text" name="lender-name" /></td>
+                                <td><input className="table" type="text" name="mortgage-start-date" /></td>
+                                <td><input className="table" type="text" name="mortgage-start-date" /></td>
+                                <td><input className="table" type="text" name="mortgage-start-date" /></td>
+                                <td><input className="table" type="text" name="mortgage-start-date" /></td>
+                                <td><input className="table" type="text" name="mortgage-start-date" /></td>
+                                <td><input className="table" type="text" name="mortgage-start-date" /></td>
+                                <td><input className="table" type="text" name="mortgage-start-date" /></td>
+                                <td><input className="table" type="text" name="mortgage-start-date" /></td>
                                 <td><input className="table" type="text" name="mortgage-start-date" /></td>
                             </tr>
                         </tbody>
