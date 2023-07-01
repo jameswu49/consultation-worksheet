@@ -19,7 +19,7 @@ app.get('/', async (req, res) => {
 app.post('/', async (req, res) => {
     try {
         const { firstName, lastName, phone, email } = req.body;
-
+        console.log('REQ.BODY', req.body.firstName)
         // Perform the database insertion
         const query = 'INSERT INTO contacts (first_name, last_name, phone_number, email) VALUES ($1, $2, $3, $4)';
         await pool.query(query, [firstName, lastName, phone, email]);

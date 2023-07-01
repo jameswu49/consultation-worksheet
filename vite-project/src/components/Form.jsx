@@ -2,17 +2,22 @@ import { useState } from "react";
 import axios from "axios"
 import InputContainer from "./Input-Container";
 import Mortgages from "./Mortgages";
-import Table from "./Table";
+import Loans from "./Loans";
+import Credit from "./Credit";
+import Income from "./Income";
+import Inputs from "./Inputs";
+import Button from "./Button";
 
 export default function Form() {
     const [mortgage, setMortgage] = useState({ name: '' })
-    const [contactInfo, setContactInfo] = useState({ firstName: '', lastName: '', phone: '', email: '' })
+    const [contactInfo, setContactInfo] = useState({ firstName: '', lastName: '', phone: 0, email: '' })
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+        const parsedValue = name === "phone" ? parseInt(value, 10) : value;
         setContactInfo((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: parsedValue,
         }));
     };
 
@@ -21,7 +26,7 @@ export default function Form() {
         e.preventDefault();
 
         try {
-            const response = await axios.post('/', contactInfo, {
+            const response = await axios.post('http://localhost:3001/', contactInfo, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -46,9 +51,11 @@ export default function Form() {
                 <form onSubmit={handleFormSubmit}>
                     <InputContainer handleChange={handleChange} />
                     <Mortgages mortgage={mortgage} setMortgages={setMortgage} />
-                    {/* <Table /> */}
-                    <button type="submit">Submit</button>
-
+                    <Loans />
+                    <Credit />
+                    <Income />
+                    <Inputs />
+                    <Button />
                 </form>
             </section>
         </>
