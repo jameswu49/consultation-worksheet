@@ -41,3 +41,7 @@ table {
  tbody {
     background-color: white;
  }
+
+ .gradient {
+    background-image: linear-gradient(#BD1B0E, #E84820);
+ }
