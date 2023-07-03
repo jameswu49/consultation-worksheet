@@ -1,4 +1,4 @@
-export default function ThreeTable({ table }) {
+export default function ThreeTable({ table, onChange }) {
     return (
         <>
             <div className="overflow-auto">
@@ -15,19 +15,19 @@ export default function ThreeTable({ table }) {
                         <tr>
                             <td className="bg-[#007ACC] text-center font-bold">1</td>
                             {table.map((item, index) => (
-                                <td key={index}><input className="table" type="text" name={item} /></td>
+                                <td key={index}><input className="table text-black" type="text" name={item} onChange={(event) => onChange(0, event)} /></td>
                             ))}
                         </tr>
                         <tr>
                             <td className="bg-[#007ACC] text-center font-bold">2</td>
                             {table.map((item, index) => (
-                                <td key={index}><input className="table" type="text" name={item} /></td>
+                                <td key={index}><input className="table text-black" type="text" name={item} onChange={(event) => onChange(1, event)} /></td>
                             ))}
                         </tr>
                         <tr>
                             <td className="bg-[#007ACC] text-center font-bold">3</td>
                             {table.map((item, index) => (
-                                <td key={index}><input className="table" type="text" name={item} /></td>
+                                <td key={index}><input className="table text-black" type="text" name={item} onChange={(event) => onChange(2, event)} /></td>
                             ))}
                         </tr>
                     </tbody>

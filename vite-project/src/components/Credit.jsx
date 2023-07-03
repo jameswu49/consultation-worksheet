@@ -1,8 +1,8 @@
 import TenTable from "./reuse/Ten-Table"
-import creditArray from "../data/credit-data"
+import creditArray from "../table-info/credit-data"
 import TextBox from "./reuse/TextBox"
 
-export default function Credit() {
+export default function Credit({ handleCreditInfo }) {
 
     function Title() {
         return (
@@ -28,8 +28,8 @@ export default function Credit() {
         <>
             <Title />
             <SubText />
-            <TenTable table={creditArray} />
-            <TextBox title='ADD EXTRA CREDIT ACCOUNTS' />
+            <TenTable table={creditArray} onChange={handleCreditInfo} />
+            <TextBox title='ADD EXTRA CREDIT ACCOUNTS' name='Extra Credit Accounts' onChange={handleCreditInfo} index='10' />
         </>
     )
 }
