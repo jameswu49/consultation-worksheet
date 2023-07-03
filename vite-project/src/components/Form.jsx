@@ -11,10 +11,7 @@ import { initialCreditInfo } from "./hooks/credit-hook";
 import Income from "./Income";
 import { initialIncomeInfo } from "./hooks/income-hook";
 import Inputs from "./Inputs";
-import { initialMonthlyInfo } from "./hooks/monthly-hook";
 import Button from "./Button";
-
-import { handleContactInfo } from "../functions/handleContactInfo"
 
 emailjs.init('WTYG-lZAifFRnGgJ4');
 
@@ -25,15 +22,16 @@ export default function Form() {
     const [loans, setLoans] = useState(initialLoansState)
     const [credit, setCredit] = useState(initialCreditInfo)
     const [income, setIncome] = useState(initialIncomeInfo)
-    const [monthly, setMonthly] = useState(initialMonthlyInfo)
+    const [monthlyExpenses, setMonthlyExpenses] = useState('')
+    const [monthlyDiscretionary, setMonthlyDiscretionary] = useState('')
 
-    // const handleContactInfo = (event) => {
-    //     const { name, value } = event.target;
-    //     setContactInfo((prevData) => ({
-    //         ...prevData,
-    //         [name]: value,
-    //     }));
-    // };
+    const handleContactInfo = (event) => {
+        const { name, value } = event.target;
+        setContactInfo((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
 
     const handleMortgageInfo = (headerIndex, event) => {
         const { name, value } = event.target;
@@ -79,40 +77,103 @@ export default function Form() {
         });
     };
 
+    const handleMonthlyInfo = (event) => {
+        setMonthlyExpenses(event.target.value)
+        console.log(monthlyExpenses)
+    }
 
-    const handleMonthlyInfo = (headerIndex, event) => {
-        const { name, value } = event.target;
-        setMonthly((prevData) => {
-            const updatedMonthly = [...prevData];
-            const updatedData = { ...updatedMonthly[headerIndex].data };
-            updatedData[name] = value;
-            updatedMonthly[headerIndex].data = updatedData;
-            return updatedMonthly;
-        });
-    };
+    const handleDiscretionaryInfo = (event) => {
+        setMonthlyDiscretionary(event.target.value)
+        console.log(monthlyDiscretionary)
+    }
 
     const sendFormData = async (formData) => {
+
         const templateParams = {
             firstName: formData.contactInfo['First Name'],
             lastName: formData.contactInfo['Last Name'],
             phone: formData.contactInfo['Phone'],
             email: formData.contactInfo['email'],
-            lenderName: formData.mortgageRows[0].data['Lender Name'],
-            startDate: formData.mortgageRows[0].data['Mortgage Start Date'],
-            mortgageTerm: formData.mortgageRows[0].data['Mortage Term'],
-            monthlyPayments: formData.mortgageRows[0].data['Monthly Payment* Including Escrows'],
-            extraPrincipal: formData.mortgageRows[0].data['Extra Principal Payment'],
-            interestRate: formData.mortgageRows[0].data['Interest Rate'],
-            escrowPayment: formData.mortgageRows[0].data['Escrow Payment'],
-            insurancePayment: formData.mortgageRows[0].data['Mortgage Insurance Payment'],
-            mortgageBalance: formData.mortgageRows[0].data['Current Mortgage Balance'],
-            originalBalance: formData.mortgageRows[0].data['Original Mortgage Balance'],
-        }
-        console.log(formData.mortgageRows[0].data);
+            extraMortgageInfo: formData.mortgageRows.length ? formData.mortgageRows[formData.mortgageRows.length - 1].data.Text : '',
+            extraLoanAccounts: formData.loansRows.length ? formData.loansRows[formData.loansRows.length - 1].data.Text : '',
+            extraCreditAccounts: formData.creditRows.length ? formData.creditRows[formData.creditRows.length - 1].data.Text : '',
+            extraIncome: formData.incomeRows.length ? formData.incomeRows[formData.incomeRows.length - 1].data.Text : '',
+            monthlyExpenses: monthlyExpenses,
+            discretionaryIncome: monthlyDiscretionary
+        };
 
+        const mortgageData = (index) => {
+            return {
+                lenderName: formData.mortgageRows[index].data['Lender Name'],
+                startDate: formData.mortgageRows[index].data['Mortgage Start Date'],
+                mortgageTerm: formData.mortgageRows[index].data['Mortage Term'],
+                monthlyPayments: formData.mortgageRows[index].data['Monthly Payment* Including Escrows'],
+                extraPrincipal: formData.mortgageRows[index].data['Extra Principal Payment'],
+                interestRate: formData.mortgageRows[index].data['Interest Rate'],
+                escrowPayment: formData.mortgageRows[index].data['Escrow Payment'],
+                insurancePayment: formData.mortgageRows[index].data['Mortgage Insurance Payment'],
+                mortgageBalance: formData.mortgageRows[index].data['Current Mortgage Balance'],
+                originalBalance: formData.mortgageRows[index].data['Original Mortgage Balance'],
+            }
+        }
+
+        const loansData = (index) => {
+            return {
+                accountName: formData.loansRows[index].data['Account Name*'],
+                loanStartDate: formData.loansRows[index].data['Loan Start Date'],
+                loanTerm: formData.loansRows[index].data['Loan Term'],
+                monthlyLoanPayment: formData.loansRows[index].data['Monthly Payment'],
+                extraLoanPayment: formData.loansRows[index].data['Extra Principal Payment'],
+                loanInterestRate: formData.loansRows[index].data['Interest Rate'],
+                currentLoanBalance: formData.loansRows[index].data['Current Loan Balance'],
+                originalLoanAmount: formData.loansRows[index].data['Original Loan Amount'],
+            }
+        }
+
+        const creditData = (index) => {
+            return {
+                creditType: formData.creditRows[index].data['Type of Credit*'],
+                currentBalance: formData.creditRows[index].data['Current Balance'],
+                minimumPayment: formData.creditRows[index].data['Minimum Payment'],
+                extraPrincipalPayment: formData.creditRows[index].data['Extra Principal Payment'],
+                interestRate: formData.creditRows[index].data['Interest Rate'],
+                creditLimit: formData.creditRows[index].data['Credit Limit']
+            }
+        }
+
+        const incomeData = (index) => {
+            return {
+                incomeSource: formData.incomeRows[index].data['Income Source*'],
+                paymentFrequency: formData.incomeRows[index].data['Payment Frequency*'],
+                netIncome: formData.incomeRows[index].data['Average Net Income Per Paycheck']
+            }
+        }
+
+        function loop(row, formData) {
+            for (let i = 0; i < row.length; i++) {
+                const data = formData(i)
+                for (const key in data) {
+                    if (key in templateParams) {
+                        let newKey = key + i
+                        templateParams[newKey] = data[key]
+                    } else {
+                        templateParams[key] = data[key]
+                    }
+                }
+            }
+        }
+
+        loop(formData.mortgageRows, mortgageData)
+        loop(formData.loansRows, loansData)
+        loop(formData.creditRows, creditData)
+        loop(formData.incomeRows, incomeData)
+
+
+
+        console.log('templateParams', templateParams)
 
         try {
-            const response = await emailjs.send('service_u4ai4eb', 'template_llp4i3', templateParams);
+            const response = await emailjs.send('service_u4ai4eb', 'template_llp4i36', templateParams);
             console.log('Email sent successfully:', response);
         } catch (error) {
             console.error('Error sending email:', error);
@@ -149,7 +210,6 @@ export default function Form() {
             loansRows,
             creditRows,
             incomeRows,
-            monthly
         }
 
         sendFormData(formData);
@@ -184,7 +244,7 @@ export default function Form() {
                     <Loans handleLoansInfo={handleLoansInfo} />
                     <Credit handleCreditInfo={handleCreditInfo} />
                     <Income handleIncomeInfo={handleIncomeInfo} />
-                    <Inputs handleMonthlyInfo={handleMonthlyInfo} />
+                    <Inputs handleMonthlyInfo={handleMonthlyInfo} handleDiscretionaryInfo={handleDiscretionaryInfo} />
                     <Button />
                 </form>
             </section>
