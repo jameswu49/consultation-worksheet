@@ -24,6 +24,9 @@ export default function Form() {
     const [income, setIncome] = useState(initialIncomeInfo)
     const [monthlyExpenses, setMonthlyExpenses] = useState('')
     const [monthlyDiscretionary, setMonthlyDiscretionary] = useState('')
+    const [incomeRequired, setIncomeRequired] = useState(true)
+    const [mortgageRequired, setMortgageRequired] = useState(true)
+    const [loanRequired, setLoanRequired] = useState(true)
 
     const handleContactInfo = (event) => {
         const { name, value } = event.target;
@@ -35,6 +38,9 @@ export default function Form() {
 
     const handleMortgageInfo = (headerIndex, event) => {
         const { name, value } = event.target;
+
+        setLoanRequired(false)
+
         setMortgage((prevData) => {
             const updatedMortgage = [...prevData]; // Create a copy of the mortgage array
             const updatedData = { ...updatedMortgage[headerIndex].data }; // Create a copy of the data object for the specified headerIndex
@@ -46,6 +52,9 @@ export default function Form() {
 
     const handleLoansInfo = (headerIndex, event) => {
         const { name, value } = event.target;
+
+        setMortgageRequired(false)
+
         setLoans((prevData) => {
             const updatedLoans = [...prevData];
             const updatedData = { ...updatedLoans[headerIndex].data };
@@ -168,12 +177,8 @@ export default function Form() {
         loop(formData.creditRows, creditData)
         loop(formData.incomeRows, incomeData)
 
-
-
-        console.log('templateParams', templateParams)
-
         try {
-            const response = await emailjs.send('service_u4ai4eb', 'template_llp4i36', templateParams);
+            const response = await emailjs.send('service_u4ai4eb', 'template_llp4i3', templateParams);
             console.log('Email sent successfully:', response);
         } catch (error) {
             console.error('Error sending email:', error);
@@ -240,10 +245,10 @@ export default function Form() {
             <section className="mt-8">
                 <form onSubmit={handleFormSubmit}>
                     <ContactInfo handleContactInfo={handleContactInfo} />
-                    <Mortgages handleMortgageInfo={handleMortgageInfo} />
-                    <Loans handleLoansInfo={handleLoansInfo} />
+                    <Mortgages handleMortgageInfo={handleMortgageInfo} mortgageRequired={mortgageRequired} />
+                    <Loans handleLoansInfo={handleLoansInfo} loanRequired={loanRequired} />
                     <Credit handleCreditInfo={handleCreditInfo} />
-                    <Income handleIncomeInfo={handleIncomeInfo} />
+                    <Income handleIncomeInfo={handleIncomeInfo} incomeRequired={incomeRequired} />
                     <Inputs handleMonthlyInfo={handleMonthlyInfo} handleDiscretionaryInfo={handleDiscretionaryInfo} />
                     <Button />
                 </form>

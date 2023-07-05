@@ -4,7 +4,7 @@ import mortagesArray from "../table-info/mortgages-data";
 import TextBox from "./reuse/TextBox";
 
 
-export default function Mortgages({ handleMortgageInfo }) {
+export default function Mortgages({ handleMortgageInfo, mortgageRequired }) {
 
 
 
@@ -22,7 +22,7 @@ export default function Mortgages({ handleMortgageInfo }) {
         <>
             <section>
                 <Title title='MORTGAGES' subtext='Please fill out all your mortgage information completely.' />
-                <Table table={mortagesArray} onChange={handleMortgageInfo} />
+                <Table table={mortagesArray} onChange={handleMortgageInfo} handleRequired={mortgageRequired} />
                 <SubText />
                 <TextBox title='ADD EXTRA MORTGAGE INFO' name='Extra Mortgage Info' onChange={handleMortgageInfo} index='3' />
             </section>

@@ -4,8 +4,8 @@ export default function Header() {
             <section className="text-center leading-7">
                 <div className="pt-16">
                     <h1 className='font-bold text-2xl'>Debt Free Date Consultation Worksheet</h1>
-                    <p>Please complete this 100% <br />CONFIDENTIAL form for your Personal Debt</p>
-                    <p>Free Date consultation.</p>
+                    <p>Please complete this 100% <br className="lg:hidden" />CONFIDENTIAL form for your Personal Debt <span className="hidden lg:inline">Free Date consultation.</span></p>
+                    <p className="lg:hidden">Free Date consultation.</p>
                 </div>
 
                 <div className="mt-10">
