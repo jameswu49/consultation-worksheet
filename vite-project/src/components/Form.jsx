@@ -1,5 +1,6 @@
 import { useState } from "react";
 import emailjs from "emailjs-com"
+import Header from "./Header";
 import ContactInfo from "./Contact-Info";
 import initialContactInfo from "./hooks/contact-hook";
 import Mortgages from "./Mortgages";
@@ -12,6 +13,7 @@ import Income from "./Income";
 import { initialIncomeInfo } from "./hooks/income-hook";
 import Inputs from "./Inputs";
 import Button from "./Button";
+import Modal from "./Modal"
 
 emailjs.init('WTYG-lZAifFRnGgJ4');
 
@@ -27,6 +29,8 @@ export default function Form() {
     const [incomeRequired, setIncomeRequired] = useState(true)
     const [mortgageRequired, setMortgageRequired] = useState(true)
     const [loanRequired, setLoanRequired] = useState(true)
+    const [hidden, setHidden] = useState(false)
+    const [hiddenError, setHiddenError] = useState(false)
 
     const handleContactInfo = (event) => {
         const { name, value } = event.target;
@@ -180,8 +184,10 @@ export default function Form() {
         try {
             const response = await emailjs.send('service_u4ai4eb', 'template_llp4i3', templateParams);
             console.log('Email sent successfully:', response);
+            setHidden(true)
         } catch (error) {
             console.error('Error sending email:', error);
+            setHiddenError(true)
         }
     };
 
@@ -242,8 +248,9 @@ export default function Form() {
 
     return (
         <>
-            <section className="mt-8">
+            <section className={`mt-8 ${hidden || hiddenError ? 'hidden' : ''}`}>
                 <form onSubmit={handleFormSubmit}>
+                    <Header />
                     <ContactInfo handleContactInfo={handleContactInfo} />
                     <Mortgages handleMortgageInfo={handleMortgageInfo} mortgageRequired={mortgageRequired} />
                     <Loans handleLoansInfo={handleLoansInfo} loanRequired={loanRequired} />
@@ -253,6 +260,7 @@ export default function Form() {
                     <Button />
                 </form>
             </section>
+            <Modal hidden={hidden} hiddenError={hiddenError} setHidden={setHidden} setHiddenError={setHiddenError} />
         </>
     )
 }
