@@ -182,7 +182,7 @@ export default function Form() {
         loop(formData.incomeRows, incomeData)
 
         try {
-            const response = await emailjs.send('service_u4ai4eb', 'template_llp4i3', templateParams);
+            const response = await emailjs.send('service_u4ai4eb', 'template_llp4i36', templateParams);
             console.log('Email sent successfully:', response);
             setHidden(true)
         } catch (error) {
@@ -224,25 +224,6 @@ export default function Form() {
         }
 
         sendFormData(formData);
-
-
-        // try {
-        //     const response = await axios.post('http://localhost:3001/', contactInfo, {
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //     });
-
-        //     if (response.status === 200) {
-        //         console.log('Contact info inserted successfully');
-        //     } else {
-        //         console.error('Error inserting contact info:', response.status);
-        //         // Handle error case
-        //     }
-        // } catch (error) {
-        //     console.error('Error inserting contact info:', error);
-        //     // Handle error case
-        // }
     };
 
 
