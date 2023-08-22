@@ -230,7 +230,7 @@ export default function Form() {
     return (
         <>
             <section className={`mt-8 ${hidden || hiddenError ? 'hidden' : ''}`}>
-                <form onSubmit={handleFormSubmit}>
+                <form onSubmit={handleFormSubmit} onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}>
                     <Header />
                     <ContactInfo handleContactInfo={handleContactInfo} />
                     <Mortgages handleMortgageInfo={handleMortgageInfo} mortgageRequired={mortgageRequired} />

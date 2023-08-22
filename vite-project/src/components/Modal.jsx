@@ -17,7 +17,7 @@ export default function Modal({ hidden, hiddenError, setHidden, setHiddenError }
 
             <div className={`h-screen flex items-center justify-center ${!hiddenError ? 'hidden' : ''} ${clicked ? 'hidden' : ''}`}>
                 <h1 className="text-center text-3xl">Error, Please try again.</h1>
-                <p onClick={handleClick}>[x]</p>
+                <p onClick={handleClick} className='cursor-pointer'>[x]</p>
             </div>
         </>
     )
